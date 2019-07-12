@@ -11,6 +11,7 @@
 /yarn-error.log
 /yarn.lock
 /package-lock.json
+/*.iml
 
 # production
 /dist
