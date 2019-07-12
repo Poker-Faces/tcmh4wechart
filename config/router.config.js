@@ -10,38 +10,38 @@ export default [
   },
   // TabBar
   {
-    path: '/tabbar',
+    path: '/',
     component: '../layouts/TabBarLayout',
     routes: [
-      { path: '/tabbar', redirect: '/tabbar/index' },
+      { path: '/', redirect: '/tcmh/information' },
       {
-        path: '/tabbar/index',
+        path: '/tcmh/information',
         title: '资讯',
-        component: './tabbar/index',
-        iconName: 'alipay',
+        component: './tabbar/Information',
+        iconName: 'zixun',
       },
       {
-        path: '/tabbar/koubei',
+        path: '/tcmh/assessment',
         title: '评估',
-        component: './tabbar/Koubei',
-        iconName: 'koubei',
+        component: './tabbar/Assessment.jsx',
+        iconName: 'ceping',
       },
       {
-        path: '/tabbar/friend',
+        path: '/tcmh/my',
         title: '我的',
-        component: './tabbar/Friend',
-        iconName: 'friend',
+        component: './tabbar/My',
+        iconName: 'wode',
       },
     ],
   },
   // H5
   {
-    path: '/',
+    path: '/content',
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
     authority: ['user', 'admin'],
     routes: [
-      { path: '/', component: './home/index', title: '首页' },
+      { path: '/content', component: './home/index', title: '首页' },
       { path: '/entrance', component: './entrance/index', title: '主入口' },
       { path: '/paper/:type', component: './paper/index', title: '试题页面' },
       { path: '/result', component: './result/index', title: '结果页' },

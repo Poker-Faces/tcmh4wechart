@@ -57,194 +57,62 @@ class TabBarLayout extends React.PureComponent {
    * @returns {*}
    */
   getChildrenContent = (children, pathname, routes) => {
-    const { visible } = this.state;
     const tabBarItems = this.getTabBarItems(routes);
     const routerConfig = this.getRouterAuthority(pathname, routes);
     let tabBarItem = [];
     if (tabBarItems && tabBarItems.length > 0) {
-      if (tabBarItems.length > 5) {
-        const items = [];
-        const moreItems = [];
-        tabBarItems.map((item, index) => {
-          if (index < 4) {
-            items.push({
-              ...item,
-            });
-          } else {
-            moreItems.push({
-              ...item,
-            });
-          }
-          return '';
-        });
-
-        tabBarItem = items.map(item => (
-          <TabBar.Item
-            title={item.title}
-            key={`tab-bar-item-${item.path}`}
-            icon={
-              <div
-                style={{
-                  width: '22px',
-                  height: '22px',
-                  background: `url(${require(`../assets/tarbar/${item.iconName ||
-                    item.title}-un.svg`)}) center center /  21px 21px no-repeat`,
-                }}
-              />
-            }
-            selectedIcon={
-              <div
-                style={{
-                  width: '22px',
-                  height: '22px',
-                  background: `url(${require(`../assets/tarbar/${item.iconName ||
-                    item.title}.svg`)}) center center /  21px 21px no-repeat`,
-                }}
-              />
-            }
-            selected={pathname === item.path}
-            badge={0}
-            onPress={() => {
-              router.push(item.path);
-            }}
-            data-seed="logId"
-          >
-            <Authorized authority={routerConfig} noMatch={<Exception403 />}>
-              {children}
-            </Authorized>
-          </TabBar.Item>
-        ));
-        const popoverItem = moreItems.map(item => (
-          <Popover.Item
-            key={`popover-item-${item.path}`}
-            value={item.title}
-            icon={
-              <div
-                style={{
-                  width: '22px',
-                  height: '22px',
-                  background: `url(${require(`../assets/tarbar/${item.iconName ||
-                    item.title}-un.svg`)}) center center /  21px 21px no-repeat`,
-                }}
-              />
-            }
-          >
-            {item.name}
-          </Popover.Item>
-        ));
-
-        tabBarItem.push(
-          <TabBar.Item
-            title="更多"
-            key="tab-bar-item-more"
-            icon={<Icon style={{ width: '22px', height: '22px' }} type="ellipsis" />}
-            selectedIcon={
-              <div
-                style={{ width: '22px', height: '22px', color: theme.primaryColor }}
-                type="ellipsis"
-              />
-            }
-            selected={pathname === 'more'}
-            badge={0}
-            onPress={() => {
-              console.log('=====');
-              this.handleVisibleChange({ visible: true });
-            }}
-          >
-            <Popover
-              mask
-              visible={visible}
-              overlay={popoverItem}
-              placement="bottomRight"
-              align={{
-                overflow: { adjustY: 0, adjustX: 0 },
-                offset: [-10, 0],
+      tabBarItem = tabBarItems.map(item => (
+        <TabBar.Item
+          title={item.title}
+          key={`tab-bar-item-${item.path}`}
+          icon={
+            <div
+              style={{
+                width: '22px',
+                height: '22px',
+                background: `url(${require(`../assets/tarbar/${item.iconName ||
+                  item.title}-un.svg`)}) center center /  21px 21px no-repeat`,
               }}
-              onVisibleChange={this.handleVisibleChange}
-              onSelect={this.onSelect}
-            >
-              <div
-                style={{
-                  height: '100%',
-                  padding: '0 15px',
-                  marginRight: '-15px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: '100%',
-                }}
-              >
-                <Icon type="ellipsis" />
-              </div>
-            </Popover>
-          </TabBar.Item>
-        );
-      } else {
-        tabBarItem = tabBarItems.map(item => (
-          <TabBar.Item
-            title={item.title}
-            key={`tab-bar-item-${item.path}`}
-            icon={
-              <div
-                style={{
-                  width: '22px',
-                  height: '22px',
-                  background: `url(${require(`../assets/tarbar/${item.iconName ||
-                    item.title}-un.svg`)}) center center /  21px 21px no-repeat`,
-                }}
-              />
-            }
-            selectedIcon={
-              <div
-                style={{
-                  width: '22px',
-                  height: '22px',
-                  background: `url(${require(`../assets/tarbar/${item.iconName ||
-                    item.title}.svg`)}) center center /  21px 21px no-repeat`,
-                }}
-              />
-            }
-            selected={pathname === item.path}
-            badge={0}
-            onPress={() => {
-              router.push(item.path);
-            }}
-            data-seed="logId"
-          >
-            <Authorized authority={routerConfig} noMatch={<Exception403 />}>
-              {children}
-            </Authorized>
-          </TabBar.Item>
-        ));
-      }
+            />
+          }
+          selectedIcon={
+            <div
+              style={{
+                width: '22px',
+                height: '22px',
+                background: `url(${require(`../assets/tarbar/${item.iconName ||
+                  item.title}.svg`)}) center center /  21px 21px no-repeat`,
+              }}
+            />
+          }
+          selected={pathname === item.path}
+          badge={0}
+          onPress={() => {
+            router.push(item.path);
+          }}
+          data-seed="logId"
+        >
+          <Authorized authority={routerConfig} noMatch={<Exception403 />}>
+            {children}
+          </Authorized>
+        </TabBar.Item>
+      ));
 
       return (
-        <TabBar
-          unselectedTintColor="#949494"
-          tintColor="#33A3F4"
-          barTintColor="white"
-          tabBarPosition="bottom"
-        >
-          {tabBarItem}
-        </TabBar>
+        <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
+          <TabBar
+            unselectedTintColor="#949494"
+            tintColor="#33A3F4"
+            barTintColor="white"
+            tabBarPosition="bottom"
+          >
+            {tabBarItem}
+          </TabBar>
+        </div>
       );
     }
     router.push('/404');
     return <></>;
-  };
-
-  handleVisibleChange = visible => {
-    this.setState({
-      visible,
-    });
-  };
-
-  onSelect = opt => {
-    console.log(opt.props.value);
-    this.setState({
-      visible: false,
-      // eslint-disable-next-line react/no-unused-state
-      selected: opt.props.value,
-    });
   };
 
   render() {
