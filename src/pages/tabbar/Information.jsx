@@ -90,77 +90,26 @@ export default class Information extends React.Component {
 
   renderContent = tab => {
     let data = [];
-    if (tab.title === tabs[0]) {
-      data = [
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-          title: 'Meet hotel',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-          title: "McDonald's invites you",
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-        {
-          img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-          title: 'Eat the week',
-          des: '不是所有的兼职汪都需要风吹日晒',
-        },
-      ];
-      return <ListViewExample data={data} pageSize={1} />;
+    for (let i = 0; i < tabs.length; i++) {
+      if (tab.title === tabs[i].title) {
+        data = [
+          {
+            img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
+            title:
+              '国家中医药局2018年职工广播操养生操比赛在京举办国家中医药局2018年职工广播操养生操比赛在京举办',
+            des: '0月17日，以“新时代全员健身动起来...0月17日，以“新时代全员健身动起来...',
+          },
+        ];
+      }
     }
-    return <ListViewExample data={data} pageSize={1} />;
+    return (
+      <ListViewExample
+        data={data}
+        pageSize={1}
+        hasMore={() => data.length > 10}
+        NUM_ROWS={data.length}
+      />
+    );
   };
 
   render() {
