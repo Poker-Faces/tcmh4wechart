@@ -1,76 +1,11 @@
 import React from 'react';
 import { Carousel, WingBlank, Tabs, WhiteSpace, ListView } from 'antd-mobile';
 import ListViewExample from './ListViewExample';
+import router from 'umi/router';
+import { queryUserList } from '@/services/api';
 
 const tabs = [{ title: '养生' }, { title: '保健' }, { title: '医药' }, { title: '疾病' }];
 
-const data = [
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-    title: 'Meet hotel',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/XmwCzSeJiqpkuMB.png',
-    title: "McDonald's invites you",
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-  {
-    img: 'https://zos.alipayobjects.com/rmsportal/hfVtzEhPzTUewPm.png',
-    title: 'Eat the week',
-    des: '不是所有的兼职汪都需要风吹日晒',
-  },
-];
 export default class Information extends React.Component {
   constructor(props) {
     super(props);
@@ -88,33 +23,61 @@ export default class Information extends React.Component {
     }, 100);
   }
 
+  goDetail = newsId => {
+    router.push('/');
+  };
+
+  setRow = (rowData, sectionID, rowID) => {
+    console.log(rowData);
+    return (
+      <div
+        key={rowID}
+        style={{ padding: '0 15px' }}
+        onClick={() => this.goDetail(rowData.userName)}
+      >
+        <div style={{ display: 'flex', padding: '15px 0' }}>
+          <img style={{ height: '64px', marginRight: '15px' }} src={rowData.img} alt="" />
+          <div style={{ lineHeight: 1.2 }}>
+            <div
+              style={{
+                marginBottom: '8px',
+                fontWeight: 'bold',
+                textAlign: 'left',
+                lineHeight: 1.3,
+              }}
+            >
+              {rowData.userName}
+            </div>
+            <div style={{ textAlign: 'left', lineHeight: 1.3 }}>
+              {rowData.userCompany}-{rowID}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   renderContent = tab => {
-    let data = [];
     for (let i = 0; i < tabs.length; i++) {
       if (tab.title === tabs[i].title) {
-        data = [
-          {
-            img: 'https://zos.alipayobjects.com/rmsportal/dKbkpPXKfvZzWCM.png',
-            title:
-              '国家中医药局2018年职工广播操养生操比赛在京举办国家中医药局2018年职工广播操养生操比赛在京举办',
-            des: '0月17日，以“新时代全员健身动起来...0月17日，以“新时代全员健身动起来...',
-          },
-        ];
+        return (
+          <div style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+            <ListViewExample
+              index={i + 1}
+              row={() => this.setRow}
+              listName="userList"
+              queryListFetch={queryUserList}
+              height={0.62}
+            />
+          </div>
+        );
       }
     }
-    return (
-      <ListViewExample
-        data={data}
-        pageSize={1}
-        hasMore={() => data.length > 10}
-        NUM_ROWS={data.length}
-      />
-    );
   };
 
   render() {
     return (
-      <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
+      <div>
         <Carousel
           autoplay={true}
           infinite
@@ -142,7 +105,7 @@ export default class Information extends React.Component {
           ))}
         </Carousel>
         <WhiteSpace />
-        <Tabs tabs={tabs} initialPage={0} animated={true} useOnPan={true} usePaged={true}>
+        <Tabs tabs={tabs} initialPage={0} animated={true} usePaged={true}>
           {this.renderContent}
         </Tabs>
         <WhiteSpace />

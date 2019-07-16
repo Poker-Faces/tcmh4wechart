@@ -213,3 +213,13 @@ export function generateUUID(len, radix) {
 
   return uuid.join('');
 }
+
+// 设置localStorage
+export function setToken(token) {
+  localStorage.setItem('token', token);
+}
+
+// 获取localStorage
+export function getToken(key) {
+  return localStorage.getItem(key);
+}

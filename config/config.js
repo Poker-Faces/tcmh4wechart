@@ -40,7 +40,7 @@ export default {
   define: {
     APP_TYPE: process.env.APP_TYPE || '',
   },
-  history: 'hash', // 默认是 browser
+  // history: 'hash', // 默认是 browser
   plugins,
   //   exportStatic: {},
   // 路由配置
@@ -68,10 +68,10 @@ export default {
   hash: true,
   alias: {},
   proxy: {
-    '/server/api/': {
-      target: 'https://preview.pro.ant.design/',
+    '/admin': {
+      target: 'http://hop.ipgogo.com/',
       changeOrigin: true,
-      pathRewrite: { '^/server': '' },
+      pathRewrite: { '^/admin': '/admin' },
     },
     '/wx/api/': {
       target: 'https://games.parsec.com.cn/',

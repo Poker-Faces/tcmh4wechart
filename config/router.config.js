@@ -6,14 +6,16 @@ export default [
     routes: [
       { path: '/user', redirect: '/user/login' },
       { path: '/user/login', component: './User/Login' },
+      { path: '/user/forget', component: './User/ForgetPassword' },
+      { path: '/user/register', component: './User/Register' },
     ],
   },
   // TabBar
   {
-    path: '/',
+    path: '/tcmh',
     component: '../layouts/TabBarLayout',
     routes: [
-      { path: '/', redirect: '/tcmh/information' },
+      { path: '/tcmh', redirect: '/tcmh/information' },
       {
         path: '/tcmh/information',
         title: '资讯',
@@ -36,12 +38,12 @@ export default [
   },
   // H5
   {
-    path: '/content',
+    path: '/',
     component: '../layouts/BasicLayout',
     Routes: ['src/pages/Authorized'],
     authority: ['user', 'admin'],
     routes: [
-      { path: '/content', component: './home/index', title: '首页' },
+      { path: '/', component: './home/index', title: '首页' },
       { path: '/entrance', component: './entrance/index', title: '主入口' },
       { path: '/paper/:type', component: './paper/index', title: '试题页面' },
       { path: '/result', component: './result/index', title: '结果页' },

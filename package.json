@@ -48,7 +48,9 @@
     "tslint": "^5.12.1",
     "tslint-config-prettier": "^1.17.0",
     "tslint-react": "^3.6.0",
-    "weixin-js-sdk": "^1.4.0-test"
+    "umi-request": "^1.1.0",
+    "weixin-js-sdk": "^1.4.0-test",
+    "rc-form": "latest"
   },
   "optionalDependencies": {
     "puppeteer": "^1.11.0"

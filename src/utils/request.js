@@ -1,7 +1,21 @@
-import fetch from 'dva/fetch';
+/**
+ * request 网络请求工具
+ * 更详细的 api 文档: https://github.com/umijs/umi-request
+ */
+import { extend } from 'umi-request';
 import { Toast } from 'antd-mobile';
 import router from 'umi/router';
-import hash from 'hash.js';
+import { getToken } from './utils';
+
+// 用户token
+const setDefaultParams = () => {
+  const param = {};
+  const token = getToken('token');
+  if (token) {
+    param.token = token;
+  }
+  return param;
+};
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -20,132 +34,45 @@ const codeMessage = {
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
 };
+/**
+ * 异常处理程序
+ */
 
-const checkStatus = response => {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
+const errorHandler = error => {
+  const { response } = error;
+  if (response && response.status) {
+    const errorText = codeMessage[response.status] || response.statusText;
+    const { status, url } = response;
+    Toast.offline(`请求错误: ${status},${errorText}`);
   }
-  const errortext = codeMessage[response.status] || response.statusText;
-  Toast.offline(`请求错误 ${response.status}: ${response.url},${errortext}`);
-  const error = new Error(errortext);
-  error.name = response.status;
-  error.response = response;
-  throw error;
-};
-
-const cachedSave = (response, hashcode) => {
-  /**
-   * Clone a response data and store it in sessionStorage
-   * Does not support data other than json, Cache only json
-   */
-  const contentType = response.headers.get('Content-Type');
-  if (contentType && contentType.match(/application\/json/i)) {
-    // All data is saved as text
-    response
-      .clone()
-      .text()
-      .then(content => {
-        sessionStorage.setItem(hashcode, content);
-        sessionStorage.setItem(`${hashcode}:timestamp`, Date.now());
-      });
-  }
-  return response;
 };
 
 /**
- * Requests a URL, returning a promise.
- *
- * @param  {string} url       The URL we want to request
- * @param  {object} [option] The options we want to pass to "fetch"
- * @return {object}           An object containing either "data" or "err"
+ * 配置request请求时的默认参数
  */
-export default function request(url, option) {
-  const options = {
-    expirys: true,
-    ...option,
-  };
-  /**
-   * Produce fingerprints based on url and parameters
-   * Maybe url has the same parameters
-   */
-  const fingerprint = url + (options.body ? JSON.stringify(options.body) : '');
-  const hashcode = hash
-    .sha256()
-    .update(fingerprint)
-    .digest('hex');
 
-  const defaultOptions = {
-    credentials: 'include',
-  };
-  const newOptions = { ...defaultOptions, ...options };
-  if (
-    newOptions.method === 'POST' ||
-    newOptions.method === 'PUT' ||
-    newOptions.method === 'DELETE'
-  ) {
-    if (!(newOptions.body instanceof FormData)) {
-      newOptions.headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json; charset=utf-8',
-        ...newOptions.headers,
-      };
-      newOptions.body = JSON.stringify(newOptions.body);
-    } else {
-      // newOptions.body is FormData
-      newOptions.headers = {
-        Accept: 'application/json',
-        ...newOptions.headers,
-      };
+const request = extend({
+  // 默认错误处理
+  errorHandler,
+  timeout: 1000 * 60, // 默认超时时间60秒
+  credentials: 'include', // 默认请求是否带上cookie
+  params: setDefaultParams(), // 始终带上的参数
+});
+
+/**
+ * 对于状态码实际是 200 的, 业务上的错误
+ */
+request.interceptors.response.use(async response => {
+  const data = await response.clone().json();
+  if (data && data.status) {
+    if (data.status !== 200) {
+      if (data.message === '未经授权的请求') {
+        router.push('/user/login');
+      }
+      Toast.offline(`错误代码: ${data.status},${data.message}`);
     }
   }
+  return response;
+});
 
-  const expirys = options.expirys && 60;
-  // options.expirys !== false, return the cache,
-  if (options.expirys !== false) {
-    const cached = sessionStorage.getItem(hashcode);
-    const whenCached = sessionStorage.getItem(`${hashcode}:timestamp`);
-    if (cached !== null && whenCached !== null) {
-      const age = (Date.now() - whenCached) / 1000;
-      if (age < expirys) {
-        const response = new Response(new Blob([cached]));
-        return response.json();
-      }
-      sessionStorage.removeItem(hashcode);
-      sessionStorage.removeItem(`${hashcode}:timestamp`);
-    }
-  }
-  return fetch(url, newOptions)
-    .then(checkStatus)
-    .then(response => cachedSave(response, hashcode))
-    .then(response => {
-      // DELETE and 204 do not return data by default
-      // using .json will report an error.
-      if (newOptions.method === 'DELETE' || response.status === 204) {
-        return response.text();
-      }
-      return response.json();
-    })
-    .catch(e => {
-      const status = e.name;
-      if (status === 401) {
-        // @HACK
-        /* eslint-disable no-underscore-dangle */
-        window.g_app._store.dispatch({
-          type: 'login/logout',
-        });
-        return;
-      }
-      // environment should not be used
-      if (status === 403) {
-        router.push('/Exception/403');
-        return;
-      }
-      if (status <= 504 && status >= 500) {
-        router.push('/Exception/500');
-        return;
-      }
-      if (status >= 404 && status < 422) {
-        router.push('/404');
-      }
-    });
-}
+export default request;
