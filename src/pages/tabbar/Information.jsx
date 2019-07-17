@@ -1,5 +1,5 @@
 import React from 'react';
-import { Carousel, WingBlank, Tabs, WhiteSpace, ListView } from 'antd-mobile';
+import { Carousel, Tabs } from 'antd-mobile';
 import ListViewExample from './ListViewExample';
 import router from 'umi/router';
 import { queryUserList } from '@/services/api';
@@ -67,7 +67,7 @@ export default class Information extends React.Component {
               row={() => this.setRow}
               listName="userList"
               queryListFetch={queryUserList}
-              height={0.62}
+              height={0.55}
             />
           </div>
         );
@@ -81,7 +81,7 @@ export default class Information extends React.Component {
         <Carousel
           autoplay={true}
           infinite
-          slideWidth={0.9}
+          // slideWidth={0.9}
           // beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
           // afterChange={index => console.log('slide to', index)}
         >
@@ -104,11 +104,11 @@ export default class Information extends React.Component {
             </a>
           ))}
         </Carousel>
-        <WhiteSpace />
+        {/*<WhiteSpace />*/}
         <Tabs tabs={tabs} initialPage={0} animated={true} usePaged={true}>
           {this.renderContent}
         </Tabs>
-        <WhiteSpace />
+        {/*<WhiteSpace />*/}
       </div>
     );
   }

@@ -105,7 +105,7 @@ export default class Assessment extends React.Component {
 
   renderContent = (tab, index) => {
     return (
-      <div style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+      <div>
         <WhiteSpace size="sm" />
         <Flex justify="start">
           <div style={{ width: '30%', height: '100%' }}>
@@ -115,7 +115,7 @@ export default class Assessment extends React.Component {
               row={() => this.setRow}
               listName="userList"
               queryListFetch={queryUserList}
-              height={1}
+              height={0.84}
             />
           </div>
           <div style={{ width: '80%', height: '100%' }}>
@@ -125,7 +125,7 @@ export default class Assessment extends React.Component {
               row={() => this.setRow1}
               listName="userList"
               queryListFetch={queryUserList}
-              height={1}
+              height={0.84}
             />
           </div>
         </Flex>

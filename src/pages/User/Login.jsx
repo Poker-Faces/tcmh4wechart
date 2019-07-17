@@ -15,28 +15,10 @@ export default class Login extends React.Component {
     phone: '',
     password: '',
   };
-  onErrorClick = () => {
-    if (this.state.hasError) {
-      Toast.info('Please enter 11 digits');
-    }
-  };
-  onChange = value => {
-    if (value.replace(/\s/g, '').length < 11) {
-      this.setState({
-        hasError: true,
-      });
-    } else {
-      this.setState({
-        hasError: false,
-      });
-    }
-    this.setState({
-      value,
-    });
-  };
 
   handleSubmit = () => {
-    const {} = this.props.from;
+    Toast.success('登录成功');
+    router.push('/tcmh/my');
   };
 
   render() {
@@ -44,8 +26,6 @@ export default class Login extends React.Component {
     return (
       <div className={styles.home}>
         <div className={styles.index}>
-          {/*<div className={styles.title}>网约车从业资格证</div>*/}
-          {/*<div className={styles.subtitle}>考题练习及模拟考试</div>*/}
           <img alt="logo" className={styles.logo} src={logo} />
           <div className={styles.title}>
             <List style={{ margin: '5px 0', backgroundColor: 'white' }}>

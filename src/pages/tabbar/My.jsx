@@ -1,51 +1,82 @@
 import React from 'react';
-import { Carousel, WingBlank } from 'antd-mobile';
+import { List, Modal } from 'antd-mobile';
+import styles from './my.less';
+import router from 'umi/router';
 
+const Item = List.Item;
+const alert = Modal.alert;
 export default class My extends React.Component {
-  state = {
-    data: ['1', '2', '3'],
-    imgHeight: 176,
-  };
-
-  componentDidMount() {
-    // simulate img loading
-    setTimeout(() => {
-      this.setState({
-        data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
-      });
-    }, 100);
-  }
-
   render() {
     return (
-      <div style={{ backgroundColor: 'white', height: '100%', textAlign: 'center' }}>
-        <WingBlank>
-          <Carousel
-            autoplay={false}
-            infinite
-            beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-            afterChange={index => console.log('slide to', index)}
+      <div className={styles.home}>
+        <div className={styles.index}>
+          {/*<Grid data={data} hasLine={false} columnNum={1} square={false} className={styles.title}/>*/}
+          <div
+            className={styles.title}
+            onClick={() => {
+              router.push('/my/info');
+            }}
           >
-            {this.state.data.map(val => (
-              <a
-                key={val}
-                href="http://www.alipay.com"
-                style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
-              >
-                <img
-                  src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
-                  alt=""
-                  style={{ width: '100%', verticalAlign: 'top' }}
-                  onLoad={() => {
-                    // fire window resize event to change height
-                    window.dispatchEvent(new Event('resize'));
-                    this.setState({ imgHeight: 'auto' });
-                  }}
-                />
-              </a>
-            ))}
-          </Carousel>
-        </WingBlank>
+            <img
+              src={'https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png'}
+              style={{ borderRadius: '50%', height: '140px', marginTop: '20px' }}
+              alt={'头像'}
+            />
+            <div style={{ marginTop: '10px' }}>
+              <span style={{ color: 'white', fontSize: '18px' }}>龚德圣</span>
+            </div>
+          </div>
+          <List style={{ margin: '5px 0', backgroundColor: 'white' }}>
+            <Item
+              thumb="https://zos.alipayobjects.com/rmsportal/dNuvNrtqUztHCwM.png"
+              arrow="horizontal"
+              onClick={() => {
+                alert('开发中...');
+              }}
+            >
+              我的数据
+            </Item>
+            <Item
+              thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png"
+              onClick={() => {
+                alert('开发中...');
+              }}
+              arrow="horizontal"
+            >
+              我的功法
+            </Item>
+            <Item
+              thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png"
+              onClick={() => {
+                router.push('/user/forget');
+              }}
+              arrow="horizontal"
+            >
+              重置密码
+            </Item>
+            <Item
+              thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png"
+              onClick={() => {
+                router.push('/my/feedback');
+              }}
+              arrow="horizontal"
+            >
+              意见反馈
+            </Item>
+            <Item
+              thumb="https://zos.alipayobjects.com/rmsportal/UmbJMbWOejVOpxe.png"
+              onClick={() =>
+                alert(' ', '确认退出登录吗？', [
+                  { text: '取消', onPress: () => console.log('cancel') },
+                  { text: '确认', onPress: () => router.push('/user/login') },
+                ])
+              }
+              arrow="horizontal"
+            >
+              退出登录
+            </Item>
+          </List>
+        </div>
       </div>
     );
   }

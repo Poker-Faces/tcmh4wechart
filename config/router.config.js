@@ -5,9 +5,9 @@ export default [
     component: '../layouts/UserLayout',
     routes: [
       { path: '/user', redirect: '/user/login' },
-      { path: '/user/login', component: './User/Login' },
-      { path: '/user/forget', component: './User/ForgetPassword' },
-      { path: '/user/register', component: './User/Register' },
+      { path: '/user/login', component: './User/Login', title: '用户登录' },
+      { path: '/user/forget', component: './User/ForgetPassword', title: '重置密码' },
+      { path: '/user/register', component: './User/Register', title: '注册' },
     ],
   },
   // TabBar
@@ -43,10 +43,12 @@ export default [
     Routes: ['src/pages/Authorized'],
     authority: ['user', 'admin'],
     routes: [
-      { path: '/', component: './home/index', title: '首页' },
-      { path: '/entrance', component: './entrance/index', title: '主入口' },
-      { path: '/paper/:type', component: './paper/index', title: '试题页面' },
-      { path: '/result', component: './result/index', title: '结果页' },
+      { path: '/', component: './tabbar/Information', title: '资讯' },
+      // { path: '/entrance', component: './entrance/index', title: '主入口' },
+      // { path: '/paper/:type', component: './paper/index', title: '试题页面' },
+      // { path: '/result', component: './result/index', title: '结果页' },
+      { path: '/my/info', component: './my/Info', title: '个人信息' },
+      { path: '/my/feedback', component: './my/Feedback', title: '意见反馈' },
       {
         title: 'exception',
         path: '/exception',

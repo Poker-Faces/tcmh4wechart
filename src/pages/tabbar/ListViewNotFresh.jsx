@@ -53,14 +53,6 @@ class ListViewNotFresh extends React.Component {
     });
   };
 
-  /**
-   * 请求新数据
-   * @param event
-   */
-  onEndReached = event => {
-    this.queryListFetch();
-  };
-
   render() {
     const separator = (sectionID, rowID) => (
       <div
@@ -90,9 +82,6 @@ class ListViewNotFresh extends React.Component {
             margin: '5px 0',
             overflow: 'auto',
           }}
-          scrollRenderAheadDistance={500}
-          onEndReachedThreshold={10}
-          onEndReached={this.onEndReached} // 相当于上拉刷新
           pageSize={pageSize}
           initialListSize={initialListSize}
         />
