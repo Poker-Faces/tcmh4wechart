@@ -11,20 +11,17 @@
     "test:component": "umi test ./src/components",
     "test:all": "node ./tests/run-tests.js",
     "analyze": "cross-env ANALYZE=1 umi build",
-    "lint": "eslint --ext .js src mock tests && npm run lint:style && npm run lint:prettier",
-    "lint:style": "stylelint \"src/**/*.less\" --syntax less",
-    "lint:fix": "eslint --fix --ext .js src mock tests && npm run lint:style",
-    "lint:prettier": "check-prettier lint",
+    "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",
     "lint-staged": "lint-staged",
-    "lint-staged:js": "eslint --ext .js",
-    "tslint": "npm run tslint:fix",
-    "tslint:fix": "tslint --fix 'src/**/*.ts*'",
-    "precommit": "lint-staged",
-    "prettier": "node ./scripts/prettier.js"
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src && npm run lint:style",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+    "lint:prettier": "check-prettier lint",
+    "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
+    "prettier": "prettier -c --write **/*",
+    "precommit": "lint-staged"
   },
   "dependencies": {
-    "@types/react": "^16.7.18",
-    "@types/react-dom": "^16.0.11",
     "antd-mobile": "^2.2.8",
     "better-scroll": "^1.13.4",
     "classnames": "^2.2.6",
@@ -54,9 +51,13 @@
     "rc-form": "latest"
   },
   "optionalDependencies": {
-    "puppeteer": "^1.11.0"
+    "puppeteer": "^1.17.0"
   },
   "devDependencies": {
+    "@types/qs": "^6.5.3",
+    "@types/react": "^16.8.19",
+    "@types/react-document-title": "^2.0.3",
+    "@types/react-dom": "^16.8.4",
     "@babel/polyfill": "^7.2.5",
     "@umijs/fabric": "^1.1.0",
     "babel-eslint": "^10.0.1",
