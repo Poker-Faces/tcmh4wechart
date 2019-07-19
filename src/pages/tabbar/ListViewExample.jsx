@@ -48,7 +48,6 @@ class ListViewExample extends React.Component {
     return queryListFetch(payload).then(data => {
       if (data) {
         const { totalRow, currentPage, pageRow, gridModel, totalPage } = data.data[listName];
-        console.log(gridModel);
         let hasData = false;
         if (currentPage < totalPage) {
           hasData = true;
@@ -74,7 +73,6 @@ class ListViewExample extends React.Component {
    * 第一页下拉刷新数据
    */
   onRefresh = () => {
-    console.log('下拉刷新了...');
     this.setState({ refreshing: true, isLoading: true, currentPage: 1 });
     // simulate initial Ajax
     this.queryListFetch();
@@ -87,7 +85,6 @@ class ListViewExample extends React.Component {
   onEndReached = event => {
     // load new data
     // hasMore: from backend data, indicates whether it is the last page, here is false
-    console.log('请求新数据了...');
     this.setState({ isLoading: true, currentPage: this.state.currentPage + 1 });
     if (this.state.hasMore) {
       this.queryListFetch();
@@ -115,36 +112,32 @@ class ListViewExample extends React.Component {
     const { listKey, row } = this.props;
     const { dataSource, isLoading, useBodyScroll, height, refreshing, pageSize } = this.state;
     return (
-      <div style={{ height: 'auto%' }}>
-        <ListView
-          key={listKey}
-          ref={el => (this.lv = el)}
-          dataSource={dataSource}
-          // renderHeader={() => <span>下拉刷新</span>}
-          renderFooter={() => (
-            <div style={{ padding: 30, textAlign: 'center' }}>
-              {isLoading ? '加载中...' : '暂无更多数据...'}
-            </div>
-          )}
-          renderRow={row()}
-          renderSeparator={separator}
-          useBodyScroll={useBodyScroll}
-          style={{
-            height: height,
-            border: '1px solid #ddd',
-            margin: '5px 0',
-            overflow: 'auto',
-          }}
-          pullToRefresh={
-            // 默认下拉刷新
-            <PullToRefresh refreshing={refreshing} onRefresh={this.onRefresh} damping={200} />
-          }
-          scrollRenderAheadDistance={500}
-          onEndReachedThreshold={10}
-          onEndReached={this.onEndReached} // 相当于上拉刷新
-          pageSize={pageSize}
-        />
-      </div>
+      <ListView
+        key={listKey}
+        ref={el => (this.lv = el)}
+        dataSource={dataSource}
+        // renderHeader={() => <span>下拉刷新</span>}
+        renderFooter={() => (
+          <div style={{ padding: 30, textAlign: 'center' }}>
+            {isLoading ? '加载中...' : '暂无更多数据...'}
+          </div>
+        )}
+        renderRow={row()}
+        renderSeparator={separator}
+        useBodyScroll={useBodyScroll}
+        style={{
+          height: height,
+          bottom: '0px',
+        }}
+        pullToRefresh={
+          // 默认下拉刷新
+          <PullToRefresh refreshing={refreshing} onRefresh={this.onRefresh} damping={200} />
+        }
+        scrollRenderAheadDistance={500}
+        onEndReachedThreshold={10}
+        onEndReached={this.onEndReached} // 相当于上拉刷新
+        pageSize={pageSize}
+      />
     );
   }
 }

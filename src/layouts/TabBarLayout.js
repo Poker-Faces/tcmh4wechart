@@ -99,12 +99,13 @@ class TabBarLayout extends React.PureComponent {
       ));
 
       return (
-        <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
+        <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0,bottom:0 }}>
           <TabBar
             unselectedTintColor="#949494"
             tintColor="#33A3F4"
             barTintColor="white"
             tabBarPosition="bottom"
+            prerenderingSiblingsNumber={0} // 预加载
           >
             {tabBarItem}
           </TabBar>

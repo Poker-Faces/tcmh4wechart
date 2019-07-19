@@ -4,23 +4,19 @@ import ListViewExample from './ListViewExample';
 import router from 'umi/router';
 import { queryUserList } from '@/services/api';
 
-const tabs = [{ title: '养生' }, { title: '保健' }, { title: '医药' }, { title: '疾病' }];
-
 export default class Information extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: ['1', '2', '3'],
+      data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
+      tabs: [
+        { title: '养生', key: '1' },
+        { title: '保健', key: '2' },
+        { title: '医药', key: '3' },
+        { title: '疾病', key: '4' },
+      ],
       imgHeight: 176,
     };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
-      });
-    }, 100);
   }
 
   goDetail = newsId => {
@@ -28,7 +24,6 @@ export default class Information extends React.Component {
   };
 
   setRow = (rowData, sectionID, rowID) => {
-    console.log(rowData);
     return (
       <div
         key={rowID}
@@ -36,7 +31,13 @@ export default class Information extends React.Component {
         onClick={() => this.goDetail(rowData.userName)}
       >
         <div style={{ display: 'flex', padding: '15px 0' }}>
-          <img style={{ height: '64px', marginRight: '15px' }} src={rowData.img} alt="" />
+          <img
+            style={{ height: '64px', marginRight: '15px' }}
+            src={
+              'http://www.chinadaily.com.cn/hqzx/images/attachement/jpg/site385/20120924/00221918200911ca40e52b.jpg'
+            }
+            alt=""
+          />
           <div style={{ lineHeight: 1.2 }}>
             <div
               style={{
@@ -48,34 +49,37 @@ export default class Information extends React.Component {
             >
               {rowData.userName}
             </div>
-            <div style={{ textAlign: 'left', lineHeight: 1.3 }}>
-              {rowData.userCompany}-{rowID}
-            </div>
+            <div style={{ textAlign: 'left', lineHeight: 1.3 }}>{rowData.userCompany}</div>
           </div>
         </div>
       </div>
     );
   };
 
-  renderContent = tab => {
-    for (let i = 0; i < tabs.length; i++) {
-      if (tab.title === tabs[i].title) {
-        return (
-          <div style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-            <ListViewExample
-              index={i + 1}
-              row={() => this.setRow}
-              listName="userList"
-              queryListFetch={queryUserList}
-              height={0.55}
-            />
-          </div>
-        );
-      }
-    }
+  renderContent = (tab, index) => {
+    return (
+      <div
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+          backgroundColor: '#fff',
+        }}
+      >
+        {/*<div style={{ alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>*/}
+        <ListViewExample
+          index={tab.key}
+          row={() => this.setRow}
+          listName="userList"
+          queryListFetch={queryUserList}
+          height={0.55}
+        />
+      </div>
+    );
   };
 
   render() {
+    const { data, imgHeight, tabs } = this.state;
     return (
       <div>
         <Carousel
@@ -85,18 +89,19 @@ export default class Information extends React.Component {
           // beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
           // afterChange={index => console.log('slide to', index)}
         >
-          {this.state.data.map(val => (
+          {data.map(val => (
             <a
               key={val}
               href="http://www.alipay.com"
-              style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
+              style={{ display: 'inline-block', width: '100%', height: imgHeight }}
             >
               <img
-                src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
-                alt=""
+                // src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
+                src={`http://www.chinadaily.com.cn/hqzx/images/attachement/jpg/site385/20120924/00221918200911ca40e52b.jpg`}
+                alt={val}
                 style={{ width: '100%', verticalAlign: 'top' }}
+                title={val}
                 onLoad={() => {
-                  // fire window resize event to change height
                   window.dispatchEvent(new Event('resize'));
                   this.setState({ imgHeight: 'auto' });
                 }}
@@ -104,11 +109,9 @@ export default class Information extends React.Component {
             </a>
           ))}
         </Carousel>
-        {/*<WhiteSpace />*/}
-        <Tabs tabs={tabs} initialPage={0} animated={true} usePaged={true}>
+        <Tabs tabs={tabs} initialPage={tabs[0].key} animated={true} prerenderingSiblingsNumber={0}>
           {this.renderContent}
         </Tabs>
-        {/*<WhiteSpace />*/}
       </div>
     );
   }

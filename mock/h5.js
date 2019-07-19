@@ -17,14 +17,16 @@ function fakeChapterList() {
  */
 function fakeQuestions() {
   return mockjs.mock({
-    'list|100': [{
-      id: '@integer(0,100)',
-      description: '@ctitle(40)',
-      'options': ['@ctitle(10)', '@ctitle(20)', '@ctitle(13)', '@ctitle(18)'],
-      'answers': ['@pick(0,1,2,3)'],
-      'chapterID|1-2': 1,
-      'sectionID|+1': 3,
-    }],
+    'list|100': [
+      {
+        id: '@integer(0,100)',
+        description: '@ctitle(40)',
+        options: ['@ctitle(10)', '@ctitle(20)', '@ctitle(13)', '@ctitle(18)'],
+        answers: ['@pick(0,1,2,3)'],
+        'chapterID|1-2': 1,
+        'sectionID|+1': 3,
+      },
+    ],
   });
 }
 
@@ -61,12 +63,12 @@ function getTestPaper(req, res) {
 
 function postTestResult(req, res) {
   const result = mockjs.mock({
-    'result': {
-      'paperId': '@integer(1,100)',
-      'score': '@integer(1,100)',
-      'wrongTotal': '@integer(0,80)',
-      'time': '9:28',
-      'isPass': '@pick(true,false)',
+    result: {
+      paperId: '@integer(1,100)',
+      score: '@integer(1,100)',
+      wrongTotal: '@integer(0,80)',
+      time: '9:28',
+      isPass: '@pick(true,false)',
     },
   });
   return res.json(result);
@@ -76,5 +78,6 @@ export default {
   'GET /api/chapter': getFakeChapterList,
   'GET /api/questions': getQuestions,
   'GET /api/test/paper': getTestPaper,
+  'GET /wx/api/js_ticket': getQuestions,
   'POST /api/test/result': postTestResult,
 };

@@ -73,11 +73,11 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/admin': '/admin' },
     },
-    '/wx/api/': {
-      target: 'https://games.parsec.com.cn/',
-      changeOrigin: true,
-      pathRewrite: { '^/wx/api': '' },
-    },
+    // '/wx/api/': {
+    //   target: 'https://games.parsec.com.cn/',
+    //   changeOrigin: true,
+    //   pathRewrite: { '^/wx/api': '' },
+    // },
   },
   ignoreMomentLocale: true,
   manifest: {
